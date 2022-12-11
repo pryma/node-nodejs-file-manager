@@ -4,31 +4,41 @@ import { homedir, EOL } from 'node:os';
 import { getUsername } from './util/argvs.js';
 import { processInput } from './util/processInput.js';
 
-const start = () => {
+const start = async () => {
     const userName = getUsername();
     if (!userName) {
         throw new Error('Operation failed');
     }
-    console.log(`Welcome to the File Manager, ${userName}!`)
+    console.log(`\x1b[34mWelcome to the File Manager, ${userName}!\x1b[0m`);
+
+    const homeDir = homedir();
+    process.chdir(homeDir);
 
     const readLineInterface = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
+        prompt: `\x1b[32mYou are currently in\x1b[0m ${process.cwd()} ${EOL}> `
     });
 
-    const homeDir = homedir();
-    process.chdir(homeDir);
-    readLineInterface.setPrompt(`You are currently in ${homeDir} ${EOL}> `)
-    readLineInterface.prompt()
+    
+    // readLineInterface.setPrompt(`You are currently in ${homeDir} ${EOL}> `);
+    readLineInterface.prompt();
 
     readLineInterface.on('line', async (line) => {
-        await processInput(readLineInterface, line)
-        readLineInterface.setPrompt(`You are currently in ${process.cwd()} ${EOL}> `)
-        readLineInterface.prompt()
+        await processInput(readLineInterface, line).catch(error => console.log(error));
+        // try {
+        //     await processInput(readLineInterface, line).catch(error => console.log(error));
+        //     // readLineInterface.prompt();
+        // } catch(error) {
+        //     console.error(error);
+        // }
+        
+        // readLineInterface.setPrompt(`You are currently in ${process.cwd()} ${EOL}> `);
+        
     }).on('close', () => {
-        console.log(`Thank you for using File Manager, ${userName}!`)
-        readLineInterface.close()
-    })
+        console.log(`\x1b[34mThank you for using File Manager, ${userName}!\x1b[0m`);
+        process.exit(0);
+    });
 }
 
 start();

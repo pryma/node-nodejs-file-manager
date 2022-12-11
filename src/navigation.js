@@ -1,55 +1,34 @@
 import { dirname, sep, resolve } from 'node:path';
 import { readdir } from 'node:fs/promises'
 
-export const up = () => {
+export const up = async () => {
     const upperPath = dirname(process.cwd());
     process.chdir(upperPath);
 }
 
-export const cd = (line) => {
-
-    const splittedLine = line.split(' ');
-    if (splittedLine.length !== 2) {
-        console.log('Invalid input');
-        return;
-    }
-
-    const path = splittedLine[1] + sep;
-    const newDir = resolve(process.cwd(), path);
-
-    try {
-        process.chdir(newDir);
-    } catch (error) {
-        console.error(error);
-        console.log('Operation failed');
-    }
+export const changeDir = async (path) => {
+    const newDir = resolve(process.cwd(), path + sep);
+    process.chdir(newDir);
 }
 
 export const printDir = async () => {
-    try {
-        const fileInfoList = await readdir(process.cwd(), { withFileTypes: true });
-        const fileInfoListForPrint = fileInfoList.map((item) => {
-            return getFileInfoForPrint(item);
-        });
-        console.table(fileInfoListForPrint, ['Name', 'Type']);
-    } catch (error) {
-        console.error(error);
-        console.log('Operation failed');
-    }
-}
+    const resultMap = new Map();
+        resultMap.set('directory', new Array());
+        resultMap.set('file', new Array());
 
-const getFileInfoForPrint = (fileInfo) => {
-    let fileType = '';
-    if (fileInfo.isDirectory()) {
-        fileType = 'directory';
-    } else if (fileInfo.isFile()) {
-        fileType = 'file';
-    } else if (fileInfo.isSymbolicLink()) {
-        fileType = 'link';
-    }
-    
-    return {
-        Name: fileInfo.name,
-        Type: fileType
-    };
+        const fileInfoList = await readdir(process.cwd(), { withFileTypes: true });
+
+        fileInfoList.reduce((result, item) => {
+            const fileInfo = {Name: item.name};
+            if (item.isDirectory()) {
+                fileInfo.Type = 'directory';
+                result.get('directory').push(fileInfo);
+            } else if (item.isFile()) {
+                fileInfo.Type = 'file';
+                result.get('file').push(fileInfo);
+            }
+            return result;
+        }, resultMap);
+
+        console.table(resultMap.get('directory').concat(resultMap.get('file')), ['Name', 'Type']);
 }
