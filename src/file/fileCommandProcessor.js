@@ -5,7 +5,7 @@ import { READ_FILE, ADD_FILE, RENAME_FILE, COPY_FILE, MOVE_FILE, DELETE_FILE } f
 import { readFile, addFile, renameFile, copyFile, deleteFile } from './files.js';
 
 export const processFileCommand = async (commandInfo) => {
-    await mainCommands.get(commandInfo.command)(commandInfo.subCommand);
+    await fileCommands.get(commandInfo.command)(commandInfo.subCommand);
 }
 
 const _readFile = async (subCommand) => {
@@ -84,10 +84,10 @@ const _deleteFile = async (subCommand) => {
     await deleteFile(filePath);
 }
 
-const mainCommands = new Map();
-mainCommands.set(READ_FILE, _readFile);
-mainCommands.set(ADD_FILE, _addFile);
-mainCommands.set(RENAME_FILE, _renameFile);
-mainCommands.set(COPY_FILE, _copyFile);
-mainCommands.set(MOVE_FILE, _moveFile);
-mainCommands.set(DELETE_FILE, _deleteFile);
+const fileCommands = new Map();
+fileCommands.set(READ_FILE, _readFile);
+fileCommands.set(ADD_FILE, _addFile);
+fileCommands.set(RENAME_FILE, _renameFile);
+fileCommands.set(COPY_FILE, _copyFile);
+fileCommands.set(MOVE_FILE, _moveFile);
+fileCommands.set(DELETE_FILE, _deleteFile);

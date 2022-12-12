@@ -1,10 +1,14 @@
 import { EOL } from 'node:os';
 
+import { EXIT, UP, CHANGE_DIR, PRINT_DIR_CONTENT, READ_FILE, ADD_FILE, RENAME_FILE, COPY_FILE, MOVE_FILE, DELETE_FILE, OPERATING_SYSTEM, CALC_HASH, COMPRESS_FILE, DECOMPRESS_FILE } from './common/commands.js';
 import { INVALID_INPUT, OPERATION_FAILD, COLOR_YELLOW, COLLOR_END, COLOR_RED, COLOR_BLUE, COLOR_GREEN } from './common/messages.js';
-import { EXIT, UP, CHANGE_DIR, PRINT_DIR_CONTENT, READ_FILE, ADD_FILE, RENAME_FILE, COPY_FILE, MOVE_FILE, DELETE_FILE, OPERATING_SYSTEM } from './common/commands.js';
+
+
+import { processNavCommand } from './navigation/navigationCommandProcessor.js';
+import { processFileCommand } from './file/fileCommandProcessor.js';
 import { processOsCommand } from './os/osCommandProcessor.js';
-import {processNavCommand} from './navigation/navigationCommandProcessor.js';
-import {processFileCommand} from './file/fileCommandProcessor.js';
+import { processHashCommand } from './hash/hashCommandProcessor.js'
+import { processZipCommand } from './zip/zipCommandProcessor.js';
 
 export const processInput = async (readLineInterface, line) => {
     const inputLine = line.trim();
@@ -56,5 +60,10 @@ mainCommands.set(MOVE_FILE, processFileCommand);
 mainCommands.set(DELETE_FILE, processFileCommand);
 
 mainCommands.set(OPERATING_SYSTEM, processOsCommand);
+
+mainCommands.set(CALC_HASH, processHashCommand);
+
+mainCommands.set(COMPRESS_FILE, processZipCommand);
+mainCommands.set(DECOMPRESS_FILE, processZipCommand);
 
 mainCommands.set('.exit', exit);
