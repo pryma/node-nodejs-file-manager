@@ -1,13 +1,14 @@
 import { EOL, cpus, homedir, userInfo, arch } from "node:os";
-import { OS_EOL, OS_CPUS_INFO, OS_HOMEDIR, OS_USERNAME, OS_ARCH } from '../common/commands.js'
 
-export const processOs = async (osCommand) => {
-    if (!osCommands.has(osCommand)) {
-        console.log(`\x1b[33mInvalid input:\x1b[0m ${osCommand}`);
-        // readLineInterface.prompt();
+import { INVALID_INPUT, COLOR_YELLOW, COLLOR_END } from '../common/messages.js';
+import { OS_EOL, OS_CPUS_INFO, OS_HOMEDIR, OS_USERNAME, OS_ARCH } from '../common/commands.js';
+
+export const processOsCommand = async (commandInfo) => {
+    if (!osCommands.has(commandInfo.subCommand)) {
+        console.log(`${COLOR_YELLOW}${INVALID_INPUT}:${COLLOR_END} ${commandInfo.subCommand}`);
         return;
     }
-    osCommands.get(osCommand)();
+    osCommands.get(commandInfo.subCommand)();
 }
 
 const getOsEOL = () => {

@@ -2,7 +2,7 @@ import readline from 'node:readline';
 import { homedir, EOL } from 'node:os';
 
 import { getUsername } from './util/argvs.js';
-import { processInput } from './util/processInput.js';
+import { processInput } from './inputCommandProcessor.js';
 
 const start = async () => {
     const userName = getUsername();
