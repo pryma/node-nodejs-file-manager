@@ -1,5 +1,6 @@
 export const INVALID_INPUT = 'Invalid input';
 export const OPERATION_FAILD = 'Operation failed';
+export const CURRENTLY_DIR = 'You are currently in';
 
 export const COLOR_RED = '\x1b[31m';
 export const COLOR_GREEN = '\x1b[32m';

@@ -18,12 +18,18 @@ export const printDir = async () => {
 
         const fileInfoList = await readdir(process.cwd(), { withFileTypes: true });
 
-        fileInfoList.reduce((result, item) => {
-            const fileInfo = {Name: item.name};
-            if (item.isDirectory()) {
+        const sortedFileInfoList = fileInfoList.map((value) => {
+            return {upName:value.name.toLocaleUpperCase(), valueDirent:value};
+        }).sort((a, b) => {
+            return a.upName.localeCompare(b.upName);
+        });
+        
+        sortedFileInfoList.reduce((result, item) => {
+            const fileInfo = {Name: item.valueDirent.name};
+            if (item.valueDirent.isDirectory()) {
                 fileInfo.Type = 'directory';
                 result.get('directory').push(fileInfo);
-            } else if (item.isFile()) {
+            } else if (item.valueDirent.isFile()) {
                 fileInfo.Type = 'file';
                 result.get('file').push(fileInfo);
             }

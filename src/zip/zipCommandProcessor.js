@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 
 import { COMPRESS_FILE, DECOMPRESS_FILE } from '../common/commands.js'
-import { INVALID_INPUT, COLOR_YELLOW, COLLOR_END } from '../common/messages.js';
+import { processFromToSubCommand } from '../util/utils.js'
 import { brotliCompress, brotliDecompress } from './zip.js';
 
 export const processZipCommand = async (commandInfo) => {
@@ -26,27 +26,6 @@ const decompress = async (subCommand) => {
     const compressedFilePath = resolve(process.cwd(), filePathesInfo.filePathFrom);
     const decompressedFilePath = resolve(process.cwd(), filePathesInfo.filePathTo);
     await brotliDecompress(compressedFilePath, decompressedFilePath);
-}
-
-const processFromToSubCommand = (subCommand) => {
-    let filePathes;
-    if (subCommand.includes(':')) {
-        filePathes = subCommand.split(':');
-    } else {
-        filePathes = subCommand.split(' ');
-    }
-
-    if (filePathes.length != 2) {
-        console.log(`${COLOR_YELLOW}${INVALID_INPUT}:${COLLOR_END} ${subCommand}`);
-        return null;
-    }
-
-    const filePathesInfo = {
-        filePathFrom: filePathes[0].trim(),
-        filePathTo: filePathes[1].trim()
-    }
-
-    return filePathesInfo;
 }
 
 const zipCommands = new Map();

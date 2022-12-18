@@ -1,7 +1,7 @@
 import { EOL } from 'node:os';
 
 import { EXIT, UP, CHANGE_DIR, PRINT_DIR_CONTENT, READ_FILE, ADD_FILE, RENAME_FILE, COPY_FILE, MOVE_FILE, DELETE_FILE, OPERATING_SYSTEM, CALC_HASH, COMPRESS_FILE, DECOMPRESS_FILE } from './common/commands.js';
-import { INVALID_INPUT, OPERATION_FAILD, COLOR_YELLOW, COLLOR_END, COLOR_RED, COLOR_BLUE, COLOR_GREEN } from './common/messages.js';
+import { CURRENTLY_DIR, INVALID_INPUT, OPERATION_FAILD, COLOR_YELLOW, COLLOR_END, COLOR_RED, COLOR_GREEN } from './common/messages.js';
 
 
 import { processNavCommand } from './navigation/navigationCommandProcessor.js';
@@ -20,7 +20,7 @@ export const processInput = async (readLineInterface, line) => {
     }
 
     if (!mainCommands.has(command)) {
-        console.log(`${COLOR_YELLOW}${INVALID_INPUT}:${COLLOR_END} ${command}`);
+        console.log(`${COLOR_YELLOW}${INVALID_INPUT}${COLLOR_END}${EOL}`);
         readLineInterface.prompt();
         return;
     }
@@ -35,10 +35,9 @@ export const processInput = async (readLineInterface, line) => {
     try {
         await mainCommands.get(command)(commandInfo);
     } catch (error) {
-        console.log('ERRRROOOOOOOOOOOOORRRRRRRRRR');
-        console.error(`${COLOR_RED}${OPERATION_FAILD}:${COLLOR_END} ${error}`);
+        console.error(`${COLOR_RED}${OPERATION_FAILD}${COLLOR_END}${EOL}`);
     } finally {
-        readLineInterface.setPrompt(`${COLOR_GREEN}You are currently in${COLLOR_END} ${process.cwd()} ${EOL}> `);
+        readLineInterface.setPrompt(`${COLOR_GREEN}${CURRENTLY_DIR}${COLLOR_END} ${process.cwd()}${EOL}> `);
         readLineInterface.prompt();
     }
 }

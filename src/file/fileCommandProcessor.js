@@ -1,7 +1,7 @@
 import { resolve, basename } from 'node:path';
 
-import { INVALID_INPUT, COLOR_YELLOW, COLLOR_END } from '../common/messages.js';
 import { READ_FILE, ADD_FILE, RENAME_FILE, COPY_FILE, MOVE_FILE, DELETE_FILE } from '../common/commands.js';
+import { processFromToSubCommand } from '../util/utils.js'
 import { readFile, addFile, renameFile, copyFile, deleteFile } from './files.js';
 
 export const processFileCommand = async (commandInfo) => {
@@ -18,27 +18,6 @@ const _addFile = async (subCommand) => {
     const fileName = subCommand;
     const filePath = resolve(process.cwd(), fileName);
     await addFile(filePath);
-}
-
-const processFromToSubCommand = (subCommand) => {
-    let filePathes;
-    if (subCommand.includes(':')) {
-        filePathes = subCommand.split(':');
-    } else {
-        filePathes = subCommand.split(' ');
-    }
-
-    if (filePathes.length != 2) {
-        console.log(`${COLOR_YELLOW}${INVALID_INPUT}:${COLLOR_END} ${subCommand}`);
-        return null;
-    }
-
-    const filePathesInfo = {
-        filePathFrom: filePathes[0].trim(),
-        filePathTo: filePathes[1].trim()
-    }
-
-    return filePathesInfo;
 }
 
 const _renameFile = async (subCommand) => {

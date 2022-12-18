@@ -5,7 +5,7 @@ import { OS_EOL, OS_CPUS_INFO, OS_HOMEDIR, OS_USERNAME, OS_ARCH } from '../commo
 
 export const processOsCommand = async (commandInfo) => {
     if (!osCommands.has(commandInfo.subCommand)) {
-        console.log(`${COLOR_YELLOW}${INVALID_INPUT}:${COLLOR_END} ${commandInfo.subCommand}`);
+        console.log(`${COLOR_YELLOW}${INVALID_INPUT}${COLLOR_END}${EOL}`);
         return;
     }
     osCommands.get(commandInfo.subCommand)();
@@ -16,12 +16,12 @@ const getOsEOL = () => {
 }
 
 const getOsCpusInfo = () => {
-    const cpusInfo = cpus().map(({model, speed}) => ({
+    const cpusInfo = cpus().map(({ model, speed }) => ({
         model,
-        speed: speed/1000 + ' GHz'
+        speed: speed / 1000 + ' GHz'
     }));
 
-    console.log(cpusInfo);
+    console.table(cpusInfo, ['model', 'speed']);
 }
 
 const getOsHomedir = () => {

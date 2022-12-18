@@ -1,14 +1,12 @@
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
-import {readFile} from 'node:fs/promises';
-
 
 export const processHashCommand = async (commandInfo) => {
     const fileName = commandInfo.subCommand;
     const filePath = resolve(process.cwd(), fileName);
     const hash = await calculateSha256(filePath);
-    console.log('Hash: ' + hash);
+    console.log(hash);
 }
 
 const calculateSha256 = async (filePath) => {

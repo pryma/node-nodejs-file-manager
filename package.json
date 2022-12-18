@@ -4,8 +4,6 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "args": "node src/parseArgs.js",
     "start": "node src/index.js"
   },
   "repository": {
