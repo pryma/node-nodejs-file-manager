@@ -13,28 +13,28 @@ export const changeDir = async (path) => {
 
 export const printDir = async () => {
     const resultMap = new Map();
-        resultMap.set('directory', new Array());
-        resultMap.set('file', new Array());
+    resultMap.set('directory', new Array());
+    resultMap.set('file', new Array());
 
-        const fileInfoList = await readdir(process.cwd(), { withFileTypes: true });
+    const fileInfoList = await readdir(process.cwd(), { withFileTypes: true });
 
-        const sortedFileInfoList = fileInfoList.map((value) => {
-            return {upName:value.name.toLocaleUpperCase(), valueDirent:value};
-        }).sort((a, b) => {
-            return a.upName.localeCompare(b.upName);
-        });
-        
-        sortedFileInfoList.reduce((result, item) => {
-            const fileInfo = {Name: item.valueDirent.name};
-            if (item.valueDirent.isDirectory()) {
-                fileInfo.Type = 'directory';
-                result.get('directory').push(fileInfo);
-            } else if (item.valueDirent.isFile()) {
-                fileInfo.Type = 'file';
-                result.get('file').push(fileInfo);
-            }
-            return result;
-        }, resultMap);
+    const sortedFileInfoList = fileInfoList.map((value) => {
+        return { upName: value.name.toLocaleUpperCase(), valueDirent: value };
+    }).sort((a, b) => {
+        return a.upName.localeCompare(b.upName);
+    });
 
-        console.table(resultMap.get('directory').concat(resultMap.get('file')), ['Name', 'Type']);
+    sortedFileInfoList.reduce((result, item) => {
+        const fileInfo = { Name: item.valueDirent.name };
+        if (item.valueDirent.isDirectory()) {
+            fileInfo.Type = 'directory';
+            result.get('directory').push(fileInfo);
+        } else if (item.valueDirent.isFile()) {
+            fileInfo.Type = 'file';
+            result.get('file').push(fileInfo);
+        }
+        return result;
+    }, resultMap);
+
+    console.table(resultMap.get('directory').concat(resultMap.get('file')), ['Name', 'Type']);
 }
