@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-file-manager",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pryma/node-nodejs-file-manager.git"
+  },
+  "author": "maksim.pryma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pryma/node-nodejs-file-manager/issues"
+  },
+  "homepage": "https://github.com/pryma/node-nodejs-file-manager#readme"
+}
